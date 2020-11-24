@@ -61,4 +61,4 @@ File_S9.RData / Results_setup_10.11.20.RData
 R Data file after analysis scripts were run.
 
 File_S10.R / CommonFunc_MLH1repo.R
-Functions used for adding varibles based on image name. Image naming logic: (dateImaged_dateDissected_strain_sexMouse#_slide_image#_rev)
+Functions used for adding varibles based on image name. Image naming logic: (dateImaged_dateDissected_strain_sexMouse#_slide_image#_rev).
