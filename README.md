@@ -1,6 +1,6 @@
 #README
 
-This repo contains supplemental figures and tables, analysis scripts and data files for publication DOI XXXX. Cell image files for this analysis are hosted on NSF CyVerse https://www.cyverse.org/ and can be shared on request.
+This repo contains supplemental figures and tables, analysis scripts and data files for publication DOI 10.1101/2020.07.08.194191. Cell image files for this analysis are hosted on NSF CyVerse https://www.cyverse.org/ and can be shared on request.
 
 **File List and discriptions**
 
