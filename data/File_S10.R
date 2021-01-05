@@ -1,11 +1,6 @@
+#Commonly used Functions
 #
 #
-
-#make functions for cleaning up BivData
-#-remove p_rev
-#-check for multi-cell images
-
-
 
 #ADD THE RANK to chrm measures 
 #fixed it with rank

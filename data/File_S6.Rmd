@@ -19,23 +19,31 @@ library(here)
 library(xlsx)
 library(reshape2)
 
-#knitr::opts_chunk$set(echo = FALSE)
-#C:\Users\April\Documents\MeioticRecombSexualDimorphism
 
 opts_knit$set(root.dir = "~./MeioticRecombSexualDimorphism/")
 setwd("~./MeioticRecombSexualDimorphism/")
 
 meta.data = read.csv( "~./MeioticRecombSexualDimorphism/data/clean.Meta.Data.txt", sep = "\t", header=TRUE)
 
-MLH1_data = read.xlsx2("~./MeioticRecombSexualDimorphism/data/MLH1.AnonData_formated.xlsx", header=TRUE, 1)
+#original file name
+#final file name
 
-DMC1.DF <- read.xlsx2("~./MeioticRecombSexualDimorphism/data/DMC1_data.xlsx", header = TRUE, 1)
+#MLH1_data = read.xlsx2("~./MeioticRecombSexualDimorphism/data/MLH1.AnonData_formated.xlsx", header=TRUE, 1)
+MLH1_data = read.xlsx2("~./MeioticRecombSexualDimorphism/data/File_S1.xlsx", header=TRUE, 1)
 
-Total.SC_DF = read.xlsx2("~./MeioticRecombSexualDimorphism/data/Total.SC_DF_5.31.20.xlsx", header=TRUE, 1)
+#DMC1.DF <- read.xlsx2("~./MeioticRecombSexualDimorphism/data/DMC1_data.xlsx", header = TRUE, 1)
+DMC1.DF <- read.xlsx2("~./MeioticRecombSexualDimorphism/data/File_S3.xlsx", header = TRUE, 1)
 
-Curated_BivData <-  read.xlsx2("~./MeioticRecombSexualDimorphism/data/Curated_BivData_5.30.20.xlsx", sep=" ", header=TRUE, 1)
+#Total.SC_DF = read.xlsx2("~./MeioticRecombSexualDimorphism/data/Total.SC_DF_5.31.20.xlsx", header=TRUE, 1)
+Total.SC_DF = read.xlsx2("~./MeioticRecombSexualDimorphism/data/File_S4.xlsx", header=TRUE, 1)
 
-source("~./MeioticRecombSexualDimorphism/src/CommonFunc_MLH1repo.R" )
+#Curated_BivData <-  read.xlsx2("~./MeioticRecombSexualDimorphism/data/Curated_BivData_5.30.20.xlsx", sep=" ", header=TRUE, 1)
+Curated_BivData <-  read.xlsx2("~./MeioticRecombSexualDimorphism/data/File_S5.xlsx", sep=" ", header=TRUE, 1)
+
+
+#source("~./MeioticRecombSexualDimorphism/data/CommonFunc_MLH1repo.R" )
+source("~./MeioticRecombSexualDimorphism/data/File_S10.R" )
+
 ```
 
 
@@ -68,7 +76,6 @@ MLH1_data <- MLH1_data[MLH1_data$nMLH1.foci != "x",]
 
 
 
-
 ```{r misc.setup, echo=FALSE}
 
 #site for colors, #http://sape.inf.usi.ch/quick-reference/ggplot2/colour
@@ -81,11 +88,11 @@ colors_of_strains <- c('WSB'= "#56B4E9",'G' ='cadetblue','LEW'= 'lightblue','PER
                        'TOM'= 'indianred1','AST' = 'tan2',
                        'CZECH'= 'brown1',
                        
-                       'MSM'= 'deeppink', 'MOLF'= 'hotpink', #mol are pinks, bc they are fancy mice
+                       'MSM'= 'deeppink', 'MOLF'= 'hotpink',
                        
-                    'CAST'='green','HMI'= 'forestgreen', #greens
+                    'CAST'='green','HMI'= 'forestgreen',
                     
-                    'SPRET'='gold','SPI'= 'goldenrod1', #browns? color of mounds?
+                    'SPRET'='gold','SPI'= 'goldenrod1',
                     'CAROLI'='gold3',
                     
                     "F1"='grey', "other" = 'grey'
@@ -116,7 +123,7 @@ exclude_mice_list <- c("10mar15_WSB_m2", "8oct14_WSB_f1", "8oct14_WSB_f3", "18no
                   )
 MLH1_data <- MLH1_data[ ! MLH1_data$mouse %in% exclude_mice_list, ]
 
-#juvi mice ~ 2 weeks old
+#juvi mice ~ 2 weeks old, used for DMc1 only
 juvi_mice.list <- c(
   "30dec14_WSB_m2","30dec14_WSB_m4","30dec14_WSB_m1","30dec14_WSB_m3","30dec14_WSB_m5",
   "30sep14_G_m1","30sep14_G_m2","30sep14_G_m3","30sep14_G_m4","30sep14_G_m5",
@@ -161,7 +168,7 @@ old.mice.list <- c(
 
 `r length(old.mice.list)` old mice (> 25 weeks) were dissected, some of the RIKEN musc strains measures only have old mouse observations. 
 
-`r length(juvi_mice.list)` juvinile mice were dissected, mostly only for DMC1 counts. Few had good MLH1 cells so they were removed from the main MLH1 DF. 
+`r length(juvi_mice.list)` juvinile mice were dissected, mostly only for DMC1 counts. Few had good MLH1 cells so they were removed from the main MLH1_DF. 
 
 
 ```{r reorder.DF, echo=FALSE}
@@ -291,15 +298,6 @@ old.mice.df <- old.mice.df[!(is.na(old.mice.df$mouse) | old.mice.df$mouse==""), 
 
 ```
 
-
-Made up the main mouse level table:  
-
-- (Q1-Q4)  
-
-- no juvi mice
-
-
-Subset DFs from here of other analysis.
 
 
 ```{r Q12_mouse.table, echo=FALSE, warning=FALSE}
@@ -1062,9 +1060,6 @@ Mouse.Table_BivData_4MM$Rec.group <- ifelse(grepl("PWD male", Mouse.Table_BivDat
 ```
 
 
-analysis using the mouse level table -- to justify that using mouse averages is a good idea.
-
-
 ## BivData Melt Position Table
 
 The BivData MELT DF is primarily for the nrmF1.pos plots/analysis. It is a Melted DF for raw and normalized foci positions from the Curated_BivData. 
@@ -1106,7 +1101,7 @@ MELT_Curated_BivData <- MELT_Curated_BivData[(!is.na(MELT_Curated_BivData$Pos)),
 
 ```
 
-The above chunk makes the MELT table (*MELT_Curated_BivData*), which can be used for Foci position comparison -- But I might not really use this for that.
+The above chunk makes the MELT table (*MELT_Curated_BivData*), which can be used for Foci position comparison.
 
 
 # Total SC
@@ -1192,34 +1187,16 @@ mouse.total.skel <- add_species(mouse.total.skel)
 mouse.total.skel$Rec.group <- ifelse(grepl("PWD male", mouse.total.skel$category), 1, 
                               ifelse(grepl("MSM male", mouse.total.skel$category), 1,
                                  ifelse(grepl("SKIVE male", mouse.total.skel$category), 1, 0)))
-
-
 ```
-
-
-The above chunk makes mouse level *mouse.total.skel*, it uses the whole DF.
 
 
 # Saving Data file
 
-Now that the dataframes have been process and formated, they will be saved as RData. the main files are:
-  1. MLH1_data and original_DF
-  2. AP_mouse_table and AP_mouse_table_w.Ages
-  3. meta.data
-
 
 ```{r save.RData, echo=FALSE}
 
-#save.image("~./MeioticRecombSexualDimorphism/data/MLH1_data_setup_5.30.20.RData")
-
-save.image("~./MeioticRecombSexualDimorphism/data/MLH1_data_setup_7.30.20.RData")
-
-
-#  OutPut: big large MLH1_data (AP's) df, big DF of BD with just the mice I want.
-#  MLH1_data_table, means and variance of AP and BD MLH1 values. made from seperate tables from AP and BD data.
-#  make sure decimal places are consistant
+#Saves to File_S7.RData, uncomment to override
+save.image("~./MeioticRecombSexualDimorphism/data/updateFile_S7.RData")
 
 ```
-
-
 
